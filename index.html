@@ -2,11 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Zombie escape</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<canvas id="canvasId" style="border: 2px dotted; margin-left: 30%; margin-top: 10%;"></canvas>
-<div id="result" style="float: right;"></div>
+<img src="http://x-lines.ru/letters/i/cyrillicbasic/0670/714128/40/0/mjzs4aujcwogkh5dcfagk.png" style="margin-left: 15%"><br>
+<canvas id="canvasId" style="border: 2px dotted; display: none; margin-left: 30%"></canvas>
+
+<div id="startmenu" class="overlay-full">
+    <img src="images/zombie.jpg" style="margin-left: 15%"><br>
+    <span id="ok-button" class="big-button" style="margin-left: 45%" onclick="launch();">
+        LAUNCH
+    </span>
+</div>
+
+<div id="scoreboard" class="overlay-full" style="display: none">
+<span class="overlay-text" id="scoreboard-text">
+        Scoreboard
+    </span>
+<span class="big-button" id="scoreboard-clear" onclick="if( confirm(`Do you really want to reset your progress?`) ) {getScoreManager().clearSaves(); location.reload(); }">
+        CLEAR RECORDS
+    </span>
+<span class="big-button" id="scoreboard-close" onclick="scoreboard(false);">
+        CLOSE
+    </span>
+</div>
+
+<span id="info">
+    V1.0 - MADE BY ZIXEL - <a href="#" onclick="scoreboard(true);">SCOREBOARD</a> - <a href="#" onclick="">DIFFICULTY</a> - ENJOY IT
+</span>
 
 <script>
 
@@ -20,16 +44,20 @@
 </script>
 
 <script src="engine/mapManager.js"></script>
+<script src="engine/scoreManager.js"></script>
 <script src="engine/spriteManager.js"></script>
 <script src="engine/eventManager.js"></script>
 <script src="engine/gameManager.js"></script>
 <script src="engine/physicManager.js"></script>
+<script src="engine/audioManager.js"></script>
+
 
 <script src="entities/Entity.js"></script>
 <script src="entities/Player.js"></script>
+<script src="entities/EnemyKilled.js"></script>
 <script src="entities/Enemy.js"></script>
 <script src="entities/Bullet.js"></script>
-
+<script src="entities/Levelend.js"></script>
 
 
 <script src="image.js"></script>

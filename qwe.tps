@@ -199,16 +199,16 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">images/tiles/black.png</key>
+            <key type="filename">Zixell.github.io/images/tiles/black.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>200,150,400,300</rect>
+                <rect>400,300,800,600</rect>
                 <key>scale9Paddings</key>
-                <rect>200,150,400,300</rect>
+                <rect>400,300,800,600</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -238,6 +238,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">images/tiles/enemydead.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,8,15,15</rect>
+                <key>scale9Paddings</key>
+                <rect>8,8,15,15</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">images/tiles/player.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -257,7 +270,8 @@
             <filename>images/tiles/player.png</filename>
             <filename>images/tiles/enemy.png</filename>
             <filename>images/tiles/bull.png</filename>
-            <filename>images/tiles/black.png</filename>
+            <filename>Zixell.github.io/images/tiles/black.png</filename>
+            <filename>images/tiles/enemydead.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

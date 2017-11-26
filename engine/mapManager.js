@@ -8,7 +8,7 @@ class mapManager{
         this.mapSize = {x: 80, y:60};
         this.tilesets = new Array();
         this.scale = 1;
-        this.view = {x: 0, y: 0, w: 800, h: 600};
+        this.view = {x: 0, y: 0, w: 800, h:600};
 
         this.imgLoadCounter = 0;
         this.imagesLoaded = false;
@@ -120,26 +120,6 @@ class mapManager{
 
     }
 
-    drawShadow(x,y){
-        getCurrentContext().rect(x,y,getCurrentCanvas().width,getCurrentCanvas().height);
-        getCurrentContext().fillStyle = "rgba(0,0,0,0.8)";
-        getCurrentContext().fill();
-        getCurrentContext().stroke();
-
-        //getCurrentContext().fillStyle = "black";
-    }
-
-    drawCircle(x,y){
-
-// Рисуем круг
-        getCurrentContext().fillStyle = "rgba(255,255,255,0.5)";
-        getCurrentContext().rect(x, y, 100, 100);
-        getCurrentContext().fill();
-        //getCurrentContext().fillStyle = "black";
-
-
-    }
-
     getTile(tileIndex) {
         let tile = {
             img: null,
@@ -205,6 +185,9 @@ class mapManager{
                                     break;
                                 case 'enemy':
                                     obj = new Enemy();
+                                    break;
+                                case 'levelend':
+                                    obj = new Levelend();
                                     break;
                             }
 

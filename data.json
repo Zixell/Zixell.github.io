@@ -28,21 +28,21 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "enemydead.png",
+	"frame": {"x":1647,"y":0,"w":30,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":30},
+	"sourceSize": {"w":30,"h":30},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "player.png",
-	"frame": {"x":1647,"y":0,"w":48,"h":32},
+	"frame": {"x":1677,"y":0,"w":48,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":32},
 	"sourceSize": {"w":48,"h":32},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "white.png",
-	"frame": {"x":1695,"y":0,"w":100,"h":100},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
-	"sourceSize": {"w":100,"h":100},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -50,8 +50,8 @@
 	"version": "1.0",
 	"image": "data.png",
 	"format": "RGBA8888",
-	"size": {"w":1795,"h":1200},
+	"size": {"w":1725,"h":1200},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:e44fd42396dabb9712ba2b1443a8b8b0:59d3537426c569cc0cd800ba5f5d4379:188fa90ea8d99ef04ad566f057518186$"
+	"smartupdate": "$TexturePacker:SmartUpdate:dc4d0648471ae0c70cdd1612b158f557:e606e1a2fc7d167071e0f96aa69b8b45:188fa90ea8d99ef04ad566f057518186$"
 }
 }

@@ -72,33 +72,53 @@ class gameManager {
     }
 
     loadAll() {
-        getMapManager().loadMap("map_1.json");
         getSpriteManager().loadAtlas("data.png", "data.json");
+        getAudioManager().init();
+        getAudioManager().loadArray(['sounds/zombie.mp3',
+            'sounds/fire.mp3',
+            'sounds/roar1.mp3',
+            'sounds/roar2.mp3',
+            'sounds/roar3.mp3'
+        ]);
         this.factory['Player'] = Player;
         this.factory['Enemy'] = Enemy;
         this.factory['Bullet'] = Bullet;
-        getMapManager().parseEntities();
+        this.factory['EnemyBody'] = EnemyBody;
+
         getMapManager().draw(getCurrentContext());
         getEventsManager().setup(getCurrentCanvas());
 
+        setTimeout(this.loadResourcesFinish, 10);
+
     }
 
-    // togglePause() {
-    //     if (this.pause) {
-    //         console.log(`UNPAUSE`);
-    //         getScoreManager().timerUnpause();
-    //         getAudioManager().frequencyRamp(getAudioManager().defaultFrequency, 1);
-    //         this.pause = false;
-    //     } else {
-    //         console.log(`PAUSE`);
-    //         getScoreManager().timerPause();
-    //         getAudioManager().frequencyRamp(getAudioManager().lowFrequency, 1);
-    //         //getGameManager().clearScreen();
-    //         getHudManager().drawTitleText('Pause');
-    //         getHudManager().drawSubtitleText('Press  \`P\`  to  continue');
-    //         this.pause = true;
-    //     }
-    // }
+    loadResourcesFinish() {
+        //console.log(`Loading resources:`);
+        let jobs = 3;
+
+        if( getSpriteManager().jsonLoaded ) {
+            jobs--;
+            //console.log(`[R]: Atlas JSON loaded`);
+        }
+
+        if( getSpriteManager().imageLoaded ) {
+            jobs--;
+            //console.log(`[R]: Atlas image loaded`);
+        }
+
+        if( getAudioManager().loaded ) {
+            jobs--;
+            //console.log(`[R]: Sounds loaded`);
+        }
+
+        if( jobs === 0 ) {
+            console.log(`[R]: COMPLETE`);
+            resourcesLoaded();
+        } else {
+            setTimeout(getGameManager().loadResourcesFinish, 10);
+        }
+
+    }
 
     entity(name) {
         for (let i = 0; i < this.entities.length; i++) {
@@ -112,6 +132,7 @@ class gameManager {
     draw() {
         if (this.player !== null) {
 
+
             getMapManager().draw(getCurrentContext());
 
 
@@ -121,16 +142,68 @@ class gameManager {
 
             getMapManager().centerAt(this.player.pos_x, this.player.pos_y);
             getSpriteManager().drawSprite(getCurrentContext(), 'black.png', this.player.pos_x-(390*2), this.player.pos_y-(297*2));
-            //getMapManager().drawShadow(0,0);
-            //getMapManager().drawCircle(this.player.pos_x, this.player.pos_y)
         }
 
 
     }
 
+    levelCompleted() {
+
+        if( getEventsManager().action['fire'] ) {
+
+            completedLevel(getScoreManager().currentLevel);
+
+        } else {
+            getGameManager().stopScene();
+            setTimeout( getGameManager().levelCompleted, 20 );
+        }
+
+    }
+
+
     clearScreen() {
         getCurrentContext().fillStyle = "black";
         getCurrentContext().fillRect(0, 0, getCurrentCanvas().width, getCurrentCanvas().height);
+    }
+
+    loadSceneFinish(sc) {
+        //console.log(`Loading scene:`);
+        let jobs = 2;
+
+        if( getMapManager().jsonLoaded ) {
+            jobs--;
+            console.log(`[S]: Map JSON loaded`);
+        }
+
+        if( getMapManager().imagesLoaded ) {
+            jobs--;
+            console.log(`[S]: Map images loaded`);
+        }
+
+        if( jobs === 0 ) {
+            console.log(`[S]: COMPLETE`);
+
+            // Launching
+            getGameManager().reloadScene();
+        } else {
+            setTimeout(getGameManager().loadSceneFinish, 50);
+        }
+
+    }
+
+
+    loadScene(sc) {
+        this.clearScreen();
+
+        getMapManager().jsonLoaded = false;
+        getMapManager().imagesLoaded = false;
+        getMapManager().imgLoadCounter = 0;
+        getMapManager().view = {x: 0, y: 0, w: 800, h: 600};
+
+        getMapManager().loadMap(sc.map);
+
+        console.log(`Loading scene "${sc.sceneName}"`);
+        setTimeout(this.loadSceneFinish, 10);
     }
 
     stopScene() {
@@ -145,7 +218,7 @@ class gameManager {
 
     reloadScene() {
         this.stopScene();
-
+        getScoreManager().clearCurrentRecording();
         getMapManager().parseMap(JSON.stringify(getMapManager().mapData));
         getMapManager().parseEntities();
         getGameManager().play();
@@ -162,6 +235,8 @@ class gameManager {
 
         return {x, y};
     }
+
+
 
     play() {
         this.worldUpdateTimer = setInterval(updateWorld, 30);

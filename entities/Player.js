@@ -20,7 +20,10 @@ class Player extends Entity{
         getPhysicManager().update(this);
     }
     onTouchEntity(entity){
-
+     if(entity.name.includes('levelend')) {
+         console.log('Completed the level!');
+         getGameManager().levelCompleted();
+     }
     }
     kill(){
         console.log(`KILLED PLAYER`);
@@ -29,6 +32,7 @@ class Player extends Entity{
     fire() {
         if(this.canFire && this.ammo !== 0) {
             let bullet = new Bullet();
+
 
             bullet.size_x = 8;
             bullet.size_y = 4;
@@ -43,9 +47,8 @@ class Player extends Entity{
             bullet.pos_x = this.pos_x + this.size_x / 2 - 4 + Math.cos(angle) * 4;
             bullet.pos_y = this.pos_y + this.size_y / 2 - 4 + Math.sin(angle) * 4;
 
-            console.log("Bullet created!<-------------")
             getGameManager().entities.push(bullet);
-
+            getAudioManager().play('sounds/fire.mp3');
 
             this.canFire = false;
             setTimeout( () => { getGameManager().player.canFire = true; }, bullet.delay);

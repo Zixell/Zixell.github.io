@@ -7,7 +7,7 @@ class physicManager {
         if(obj.move_x === 0 && obj.move_y === 0 && obj.angle === null)
             return 'stop';
 
-        //console.log(`Position: ${obj.pos_x}, ${obj.pos_y}`);
+        //console.log("UPDATE PM = "+obj.name);
         let newX, newY;
 
         if(obj.angle === null) {

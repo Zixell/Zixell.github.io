@@ -17,6 +17,7 @@ class Bullet extends Entity{
 
     }
     update(){
+        //console.log("UPDATE BULLET <==============");
         getPhysicManager().update(this);
     }
     onTouchEntity(obj){
@@ -25,6 +26,7 @@ class Bullet extends Entity{
             if(e !== null) {
                 if(e.alive) {
                     //getScoreManager().enemyKilled(entity.difficulty);
+
                     e.kill();
                 }
             }
