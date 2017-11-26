@@ -218,7 +218,7 @@ class gameManager {
 
     reloadScene() {
         this.stopScene();
-        getScoreManager().clearCurrentRecording();
+        //getScoreManager().clearCurrentRecording();
         getMapManager().parseMap(JSON.stringify(getMapManager().mapData));
         getMapManager().parseEntities();
         getGameManager().play();

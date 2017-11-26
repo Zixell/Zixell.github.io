@@ -1,5 +1,5 @@
 body{
-    background-color: white;
+    background-color: black;
 }
 
 
@@ -32,6 +32,66 @@ body{
     color: rgb(106,58,26);
 }
 
-.scoreboard-text{
+.overlay-full {
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+
+    background-position-x: center;
+    background-position-y: center;
+    background-repeat: no-repeat;
+    background-color: black;
+}
+
+#info {
+    display: block;
+    position: absolute;
+    bottom: 5px;
+    margin: 0px;
+    padding: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    font: 10px 'Arial', 'Impact';
     color: rgb(106,58,26);
+
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#info a, #info a:visited {
+    text-decoration: underline;
+    color: rgb(106,58,26);
+}
+
+#scoreboard .overlay-text {
+    display: block;
+    font: 20px 'arcade-classic', 'Impact';
+    color: white;
+    text-align: center;
+    height: 100%;
+    overflow: auto;
+}
+
+#scoreboard .overlay-text b {
+    color: rgb(106,58,26);
+}
+
+#scoreboard-close, #scoreboard-clear {
+    position: absolute;
+    bottom: 20px;
+    margin: 10px;
+    left: 50%;
+}
+
+#scoreboard-close {
+    transform: translateX(5px);
+}
+
+#scoreboard-clear {
+    transform: translateX(-101%);
 }

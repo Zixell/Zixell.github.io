@@ -74,9 +74,11 @@ function completedLevel(l) {
 
 function startLevel(l) {
     if(l < gameScenes.length) {
-
+        getAudioManager().stopAll();
         getScoreManager().currentLevel = l;
         getScoreManager().save();
+
+        getScoreManager().clearAll();
 
         getGameManager().clearScreen();
 
@@ -115,16 +117,18 @@ function resourcesLoaded() {
 
 function launch() {
         document.getElementById("canvasId").style.display = 'block';
+
         getScoreManager().load();
         getGameManager().loadAll();
         document.getElementById('startmenu').style.display = 'none';
 }
 
 function scoreboard(en) {
-    document.getElementById('startmenu').style.display = 'none';
+    //document.getElementById('startmenu').style.display = 'none';
     let scoreboardElement = document.getElementById('scoreboard');
     let scoreboardTextElement = document.getElementById('scoreboard-text');
     if(en) {
+        getScoreManager().load();
         scoreboardTextElement.innerHTML = '';
         scoreboardElement.style.display = 'block';
 
@@ -136,7 +140,8 @@ function scoreboard(en) {
 
     } else {
         scoreboardElement.style.display = 'none';
-        document.getElementById('startmenu').style.display = 'block';
+        //document.getElementById('startmenu').style.display = 'block';
+
     }
 }
 console.log("BEGIN")

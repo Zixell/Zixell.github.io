@@ -64,7 +64,7 @@ class Enemy extends Entity {
         this.alive = false;
 
 
-        getScoreManager().difficulty = this.difficulty;
+        //getScoreManager().difficulty = this.difficulty;
         getScoreManager().enemyDead();
 
         let deathS = [

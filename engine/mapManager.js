@@ -23,8 +23,8 @@ class mapManager{
         };
         request.open("GET", path, true);
         request.send();
-        // this.view.w = getCurrentCanvas().width;
-        // this.view.h = getCurrentCanvas().height;
+        this.view.w = getCurrentCanvas().width;
+        this.view.h = getCurrentCanvas().height;
     }
     parseMap(tilesJSON){
         this.mapData = JSON.parse(tilesJSON);

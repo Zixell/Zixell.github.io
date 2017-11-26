@@ -12,7 +12,7 @@ class scoreManager{
 
     enemyDead(){
         console.log("SCORED!");
-        this.scoreStorage[this.currentLevel].score += Math.floor(100 * this.difficulty);
+        this.scoreStorage[this.currentLevel].score += 10;
         this.scoreStorage[this.currentLevel].killed += 1;
     }
     currentScore() {
@@ -29,6 +29,7 @@ class scoreManager{
 
     clearAll() {
         this.scoreStorage = [];
+        this.difficulty = 0;
         for(let i = 0; i < gameScenes.length; i++) {
             this.scoreStorage[i] = {};
             this.scoreStorage[i].score = 0;
