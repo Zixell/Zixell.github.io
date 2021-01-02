@@ -9,9 +9,41 @@
 </head>
 <body>
     <style>
+        body {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            background-color: #263238;
+            height: 100vh;
+            padding: 0;
+            margin: 0;
+            font-family: Arial;
+        }
+
+        div.container4 {
+            height: 10em;
+            position: relative 
+        }
+
+        div.container4 p {
+            margin: 0;
+            background: yellow;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%) 
+        }
+
+        .grid {
+            display: inline-grid;
+            padding: 15px;
+            margin: 0 auto;
+        }
+
         .text-input {
             width: 800px;
             height: 30px;
+            margin: 10px;
         }
 
         .text-button {
@@ -22,45 +54,137 @@
         .text-float {
             margin-top: 15px;
         }
+
+        .flexbox {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+
+        p.blocktext {
+            margin-left: auto;
+            margin-right: auto;
+            width: 6em
+        }
+
+        .flexbox > div {
+            width: 300px;
+            height: 300px;
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 25%;
+            flex: 0 0 25%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            margin: 0;
+            position: relative;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* BORDER TOP SPINNER */
+        .bt-spinner {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            background-color: transparent;
+            border: 4px solid #222;
+            border-top-color: #009688;
+            -webkit-animation: 1s spin linear infinite;
+            animation: 1s spin linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+            from {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            to {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+                
+        @keyframes spin {
+            from {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            to {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }   
+
     </style>
+
     <div id="main">
-        <div>
+        <div class=container4>
+            <p style="padding: 15px; padding-left: 20%; padding-right: 20%;">Если вы ищите определенный float скина, то пишите название оружия, скин и выбирайте состояние (доступны не все) и система покажет все доступные на данный момент float и его цену.
+                К сожалению пока не придумал как кидать ссылку на конкретный скин. 
+            </p>
+        </div>
+
+        <div class="grid" style="margin-left: 30%;">
             <input v-model="gun" class="text-input" placeholder="gun">
             <input v-model="skin" class="text-input" placeholder="skin">
-            <input v-model="condition" class="text-input" placeholder="condition">
-
+            <select v-model="condition" class="text-input">
+                <option>Well-Worn</option>
+                <option>Field-Tested</option>
+                <option>Battle-Scarred</option>
+            </select>
 
             <button @click='click' class="text-button">Request</button>   
         </div>
 
         <div class="text-float" v-for="item in requestItems">
-            {{ item.price }} руб. - {{ item.floatvalue }}
+            <p style="background: yellow; width: 300px; margin-left: 33%;">{{ item.price }} руб. - {{ item.floatvalue }}</p>
+        </div>
+
+        <div v-if="loading">
+            <div class="bt-spinner"></div>
         </div>
     </div>
     <script>
         const vm = new Vue({
             el: '#main',
             data: {
+                loading: false,
                 steam_url: '',
                 gun: '',
                 skin: '',
                 condition: '',
+                count: '',
                 requestItems: []
             },
             methods: {
                 click(){
+                    vm.loading = true;
                     vm.requestItems = [];
 
                     const steamUrl = vm.makeUrl(vm.makeItemName(vm.gun, vm.skin, vm.condition), 100);
 
-                    axios.get(steamUrl)
+                    axios.get(steamUrl, {
+                            headers: {
+                                'Access-Control-Allow-Origin': '*'
+                            }})
                         .then(async function (response) {
                             const assets = response.data.listinginfo;
                             const array = [];
                             for (item of Object.values(assets)) {
                                 let runUrl = item.asset.market_actions[0].link.replace('%listingid%', item.listingid).replace('%assetid%', item.asset.id);
                                 const itemData = await axios.get('https://api.csgofloat.com/?url=' + runUrl);
-                                itemData.data.iteminfo.price = item.price - item.fee;
+                                itemData.data.iteminfo.price = item.price;
                                 array.push(itemData.data.iteminfo);
                             }
                             vm.requestItems = array.sort((a,b) => a.price - b.price);
@@ -69,7 +193,7 @@
                             // handle error
                             console.log(error);
                         });
-
+                        vm.loading = false;
                 },
                 makeUrl(item, count) {
                     return 'https://steamcommunity.com/market/listings/730/' + item + '/render?start=0&count=' + count + '&currency=3&language=english&format=json'
