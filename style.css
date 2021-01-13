@@ -1,97 +1,14 @@
-body{
-    background-color: black;
+body { 
+    background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; 
 }
 
-
-.big-button{
-    display: inline-block;
-    font-weight: bold;
-    color: #fff;
-    text-decoration: none;
-    text-shadow: 0 -1px rgba(0,0,0,.5);
-    user-select: none;
-    padding: .7em 1.5em;
-    border: 1px solid rgb(80,32,0);
-    border-radius: 5px;
-    outline: none;
-    background: rgb(147,80,36) linear-gradient(rgb(106,58,26), rgb(147,80,36) 80%);
-    box-shadow:
-            0 6px rgb(86,38,6),
-            0 3px 15px rgba(0,0,0,.4),
-            inset 0 1px rgba(255,255,255,.3),
-            inset 0 0 3px rgba(255,255,255,.5);
-    transition: .2s;
+.login-panel {
+    margin-top: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20%;
 }
 
-.big-button:hover {
-    background: rgb(167,91,41) linear-gradient(rgb(126,69,31), rgb(167,91,41) 80%);
-}
-
-.info > a{
-    font-weight: bold;
-    color: rgb(106,58,26);
-}
-
-.overlay-full {
-    position: fixed;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-
-    background-position-x: center;
-    background-position-y: center;
-    background-repeat: no-repeat;
-    background-color: black;
-}
-
-#info {
-    display: block;
-    position: absolute;
-    bottom: 5px;
-    margin: 0px;
-    padding: 2px;
-    left: 50%;
-    transform: translateX(-50%);
-
-    font: 10px 'Arial', 'Impact';
-    color: rgb(106,58,26);
-
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-}
-
-#info a, #info a:visited {
-    text-decoration: underline;
-    color: rgb(106,58,26);
-}
-
-#scoreboard .overlay-text {
-    display: block;
-    font: 20px 'arcade-classic', 'Impact';
-    color: white;
-    text-align: center;
-    height: 100%;
-    overflow: auto;
-}
-
-#scoreboard .overlay-text b {
-    color: rgb(106,58,26);
-}
-
-#scoreboard-close, #scoreboard-clear {
-    position: absolute;
-    bottom: 20px;
-    margin: 10px;
-    left: 50%;
-}
-
-#scoreboard-close {
-    transform: translateX(5px);
-}
-
-#scoreboard-clear {
-    transform: translateX(-101%);
+.sign-in-button {
+    margin-bottom: 10px;
 }
