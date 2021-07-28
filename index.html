@@ -1,97 +1,142 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Club</title>
-
-    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
-
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>Subscriber</title>
+</head>
+<style>
 
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    
-    <div id="main">
-      <div v-if="authenticated">
-        <button @click="test"> TEST </button>
-        Hi, baby
+</style>
+<body>
+   <div id="main">
+      <div class="w3-bar w3-black">
+        <button class="w3-bar-item w3-button" onclick="openTab('video-page')">Video</button>
+        <button class="w3-bar-item w3-button" onclick="openTab('sub-page')">Subscribe</button>
+        <button class="w3-bar-item w3-button" onclick="openTab('key-page')">API key</button>
       </div>
-      <div id="login-panel-id" v-else>
-        <form class="w3-container w3-card-4 w3-light-grey login-panel">
-          <p>      
-          <label>Email</label>
-          <input v-model="email" class="w3-input w3-border" type="email"></p>
-          <p>      
-          <label>Password</label>
-          <input v-model="password" class="w3-input w3-border" type="password"></p>
-          <br>
-          <button @click="auth" class="w3-btn w3-blue-grey sign-in-button">Sign in</button>
-          </form>
-      </div>
-    </div>
-
-    <script>
-      const invalidEmail = 'auth/invalid-email';
-      const invalidPassword = 'auth/wrong-password';
-      const userObject = 'userObject';
-
-      const firebaseConfig = {
-        apiKey: "AIzaSyA7u1ODSYwg8LMxq5eg1c1CDWwj4swjpj0",
-        authDomain: "zixel-io.firebaseapp.com",
-        databaseURL: "https://zixel-io-default-rtdb.europe-west1.firebasedatabase.app",
-        projectId: "zixel-io",
-        storageBucket: "zixel-io.appspot.com",
-        messagingSenderId: "677562711568",
-        appId: "1:677562711568:web:be979343bb358e38031495"
-      };
       
-      firebase.initializeApp(firebaseConfig);
+      <div id="video-page" class="tab-element">
+        <h2>New videos</h2>
+        <button @click="findNewVideos()" class="w3-btn w3-blue">Refresh</button>
+        <div v-for="(channel, name) in videos">
+            <h2> {{name}} </h2>
+            <div style="display: flex">
+                <div v-for="video in channel">
+                    <iframe width="355" height="200"
+                            :src="url(video)">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+      </div>
+      
+      <div id="sub-page" class="tab-element" style="display:none">
+        <h2>Subscribe new channel</h2>
+          <h3>Enter the channel's id</h3>
+          <input v-model="youtube_channel" class="w3-input w3-border w3-round" type="text">
+          <button @click="sub()" class="w3-btn w3-blue">Save</button>
+      </div>
 
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          vm.authenticated = true;
-        } else {
-          vm.authenticated = false;
-        }
-      });
+       <div id="key-page" class="tab-element" style="display:none">
+           <h2>Add your youtube API key</h2>
+           <h3>Enter API key:</h3>
+           <input v-model="api_key" class="w3-input w3-border w3-round" type="text">
+           <button @click="saveKey()" class="w3-btn w3-blue">Save</button>
 
-      const vm = new Vue({
-        el: '#main',
-        data: {
-          email: '',
-          password: '',
-          authenticated: false
-        },
-        methods:{
-            auth(){
-              firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
-                .then(function() {  
-                  return firebase.auth().signInWithEmailAndPassword(vm.email, vm.password);
-                })
-                .catch(function(error) {
-                  var errorCode = error.code;
-                  var errorMessage = error.message;
-                  console.log(errorCode, errorMessage);
-                });
+           <a href="https://developers.google.com/youtube/registering_an_application?hl=ru"> How to obtain API key? </a>
+       </div>
+   </div>
+
+   <script>
+        const vm = new Vue({
+            el: "#main",
+            data: {
+                youtube_channel: '',
+                api_key: '',
+                channel_list: [],
+                channels_info: [],
+                videos: {}
             },
-            test() {
-              firebase.database().ref('zixel-io-default-rtdb').set({
-                username: 'name2',
-                email: 'emai2l',
-                profile_picture : 'imageU2rl'
-              });
+            methods: {
+                save(){
+                    const channels = JSON.stringify({channels: vm.channel_list});
+                    localStorage.setItem('channels', channels);
+                },
+                sub(){
+                    vm.channel_list.push(vm.youtube_channel);
+                    vm.save();
+                },
+                saveKey(){
+                    localStorage.setItem('api_key', vm.api_key);
+                },
+                url(channel) {
+                    return 'https://www.youtube.com/embed/' + channel.snippet.resourceId.videoId;
+                },
+                findNewVideos(){
+                    const channels = localStorage.getItem('channels');
+                    const apiKey = localStorage.getItem('api_key');
+                    this.channel_list = channels === null ? [] : JSON.parse( channels ).channels;
+                    this.api_key = apiKey;
+
+                    for (const channel of this.channel_list) {
+                        axios.get('https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=' + channel + '&key=' + this.api_key)
+                            .then(function (response) {
+                                if (!response.data.items) {
+                                    return;
+                                }
+
+                                for (const item of response.data.items) {
+                                    vm.channels_info.push(item);
+                                }
+
+                                for (const playlist of vm.channels_info) {
+                                    axios.get('https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=' + playlist.contentDetails.relatedPlaylists.uploads + '&key=' + vm.api_key)
+                                        .then(function (response) {
+                                            for (const item of response.data.items) {
+                                                if (!vm.videos[item.snippet.channelTitle]) {
+                                                    Vue.set(vm.videos, item.snippet.channelTitle, []);
+                                                }
+
+                                                if (vm.videos[item.snippet.channelTitle].length < 5) {
+                                                    vm.videos[item.snippet.channelTitle].push(item);
+                                                }
+                                            }
+                                        })
+                                        .catch(function (error) {
+                                            console.log(error);
+                                        })
+                                }
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            })
+                    }
+                }
+            },
+            mounted(){
+                const channels = localStorage.getItem('channels');
+                const apiKey = localStorage.getItem('api_key');
+                this.chanel_list = JSON.parse( channels )
+                this.api_key = apiKey;
+
+                this.findNewVideos();
             }
+        });
+        
+        function openTab(element) {
+            var i;
+            var x = document.getElementsByClassName("tab-element");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            document.getElementById(element).style.display = "block";
         }
-      });
     </script>
-  </body>
+
+</body>
 </html>
