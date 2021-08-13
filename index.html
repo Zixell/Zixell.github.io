@@ -21,15 +21,24 @@
       </div>
       
       <div id="video-page" class="tab-element">
-        <h2>New videos</h2>
-        <button @click="findNewVideos()" class="w3-btn w3-blue">Refresh</button>
+          <div style="display: flex">
+              <h2>New videos</h2>
+              <button @click="findNewVideos()" class="w3-btn w3-blue" style="float: right; margin-left: 25px">Refresh</button>
+          </div>
+
+        <input v-model="search" class="w3-input w3-border w3-round" type="text" placeholder="Search...">
+
         <div v-for="(channel, name) in videos">
-            <h2> {{name}} </h2>
-            <div style="display: flex">
-                <div v-for="video in channel">
-                    <iframe width="355" height="200"
-                            :src="url(video)">
-                    </iframe>
+            <div v-show ="search === '' || name.toLowerCase().includes(search.toLowerCase())">
+                <div style="display: flex">
+                    <h2> {{name}}</h2> <a href="#"> ✘ </a>
+                </div>
+                <div style="display: flex">
+                    <div v-for="video in channel">
+                        <iframe width="355" height="200"
+                                :src="url(video)">
+                        </iframe>
+                    </div>
                 </div>
             </div>
         </div>
@@ -57,6 +66,7 @@
             el: "#main",
             data: {
                 youtube_channel: '',
+                search: '',
                 api_key: '',
                 channel_list: [],
                 channels_info: [],
