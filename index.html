@@ -9,7 +9,34 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>Subscriber</title>
 </head>
+<<<<<<< HEAD
 <style>
+=======
+<body>
+<img src="http://x-lines.ru/letters/i/cyrillicbasic/0670/714128/40/0/mjzs4aujcwogkh5dcfagk.png" style="margin-left: 15%"><br>
+<canvas id="canvasId" style="border: 2px dotted; display: none; margin-left: 30%"></canvas>
+<img src="images/z1.png" style="position: absolute; top: 100px;"/>
+<img src="images/z2.png" style="position: absolute; top: 100px; right: 0px ;"/>
+<div id="startmenu" class="overlay-full">
+    <img src="http://x-lines.ru/letters/i/cyrillicbasic/0670/714128/40/0/mjzs4aujcwogkh5dcfagk.png" style="margin-left: 15%"><br>
+    <img src="images/zombie.jpg" style="margin-left: 15%"><br>
+    <span id="ok-button" class="big-button" style="margin-left: 45%" onclick="launch();">
+        LAUNCH
+    </span>
+</div>
+
+<div id="scoreboard" class="overlay-full" style="display: none">
+<span class="overlay-text" id="scoreboard-text">
+        Scoreboard
+    </span>
+<span class="big-button" id="scoreboard-clear" onclick="if( confirm(`Do you really want to reset your progress?`) ) {getScoreManager().clearSaves(); location.reload(); }">
+        CLEAR RECORDS
+    </span>
+<span class="big-button" id="scoreboard-close" onclick="scoreboard(false);">
+        CLOSE
+    </span>
+</div>
+>>>>>>> parent of 71894c3 (finale)
 
 </style>
 <body>
@@ -134,6 +161,7 @@
                 this.chanel_list = JSON.parse( channels )
                 this.api_key = apiKey;
 
+<<<<<<< HEAD
                 this.findNewVideos();
             }
         });
@@ -147,6 +175,9 @@
             document.getElementById(element).style.display = "block";
         }
     </script>
+=======
+<script src="image.js"></script>
+>>>>>>> parent of 71894c3 (finale)
 
 </body>
 </html>
