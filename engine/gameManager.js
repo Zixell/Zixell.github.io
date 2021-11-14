@@ -78,7 +78,9 @@ class gameManager {
             'sounds/fire.mp3',
             'sounds/roar1.mp3',
             'sounds/roar2.mp3',
-            'sounds/roar3.mp3'
+            'sounds/roar3.mp3',
+            'sounds/VIKA.mp3',
+            'sounds/lava.mp3'
         ]);
         this.factory['Player'] = Player;
         this.factory['Enemy'] = Enemy;
@@ -152,6 +154,7 @@ class gameManager {
         if( getEventsManager().action['fire'] ) {
 
             completedLevel(getScoreManager().currentLevel);
+            console.log(getScoreManager().currentLevel +" COMLETED!!!!!!")
 
         } else {
             getGameManager().stopScene();
@@ -218,7 +221,7 @@ class gameManager {
 
     reloadScene() {
         this.stopScene();
-        //getScoreManager().clearCurrentRecording();
+        getScoreManager().clearCurrentRecording();
         getMapManager().parseMap(JSON.stringify(getMapManager().mapData));
         getMapManager().parseEntities();
         getGameManager().play();
